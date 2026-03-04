@@ -117,3 +117,4 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | \
 3. **Choose one for daily use** – TickTick-SDK has more features (habits, tags, focus). Felores is simpler and OAuth-only. Run both in parallel only if you need both feature sets.
 4. **Optional:** Use `TICKTICK_ENABLED_TOOLS` with ticktick-sdk to limit tools and reduce context usage.
 ```
+```

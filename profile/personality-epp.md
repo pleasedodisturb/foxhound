@@ -58,3 +58,4 @@
 **High Extroversion (85th) + Average Motivation (57th):** Energized by people and ideas, but not uniformly driven -- selective about what to pour energy into. Will seem extremely motivated on interesting problems and disengaged on administrative busywork.
 
 **Moderate Assertiveness (72nd) + Low Stress Tolerance (34th):** Will push for what's right, but the emotional cost of conflict is real. The Wolt farewell letter is a perfect artifact of this -- assertive and eloquent, but clearly written from a place of emotional impact.
+```

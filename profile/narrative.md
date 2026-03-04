@@ -70,3 +70,4 @@ Things I could have done differently:
 - Heavy meeting culture with no async alternatives
 - Leadership that talks about AI but uses Google Sheets for everything
 - Probation periods used as no-accountability firing windows
+```

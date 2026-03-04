@@ -21,7 +21,7 @@
 #     type: command
 #     config:
 #       command: npx
-#       args: ["-y", "@modelcontextprotocol/server-filesystem", "/Users/pleasedodisturb/Projects/Jobs"]
+#       args: ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/your/job-search-hq"]
 #       env: {}
 
 # Example: TickTick (with Proton Pass credentials)
@@ -32,9 +32,9 @@
 #       command: pass-cli
 #       args:
 #         - run
-#         - --env-file=/Users/pleasedodisturb/.config/mcp-credentials.env
+#         - --env-file=~/.config/mcp-credentials.env
 #         - --
-#         - /Users/pleasedodisturb/Projects/Jobs/ticktick-sdk/.venv/bin/ticktick-sdk
+#         - /path/to/your/job-search-hq/ticktick-sdk/.venv/bin/ticktick-sdk
 #         - server
 #       env: {}
 
@@ -46,7 +46,7 @@
 #       command: pass-cli
 #       args:
 #         - run
-#         - --env-file=/Users/pleasedodisturb/.config/mcp-credentials.env
+#         - --env-file=~/.config/mcp-credentials.env
 #         - --
 #         - npx
 #         - --prefer-online
@@ -62,7 +62,7 @@
 #       command: pass-cli
 #       args:
 #         - run
-#         - --env-file=/Users/pleasedodisturb/.config/mcp-credentials.env
+#         - --env-file=~/.config/mcp-credentials.env
 #         - --
 #         - npx
 #         - -y

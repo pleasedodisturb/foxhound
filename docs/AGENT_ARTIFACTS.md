@@ -84,3 +84,4 @@ This doc clarifies which files and flows belong to which agent, so you don't mix
 | Add rules | `.cursor/rules/*.mdc` | AGENT.md or .goosehints |
 | Configure MCPs | `~/.cursor/mcp.json` | `~/.config/goose/profiles.yaml` |
 | Context/memory | ContextStream | Goose Memory extension |
+```

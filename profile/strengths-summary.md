@@ -91,3 +91,4 @@ A **strategic communicator and activator** who sees the future, connects dispara
 
 **Best environment:** High autonomy, evolving challenges, permission to experiment, AI-forward culture.
 **Worst environment:** Rigid process, narrow mandate, political conformity, innovation theater.
+```

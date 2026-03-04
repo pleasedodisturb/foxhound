@@ -81,3 +81,4 @@ Migration of Job Search HQ from Cursor IDE to Block's Goose AI agent. Plan refer
 | Update | `README.md` |
 | Preserve | `.cursor/` |
 ```
+```

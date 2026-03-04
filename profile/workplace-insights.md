@@ -59,3 +59,4 @@
 2. **Attitudes & Outlook:** Creativity is an asset, but sometimes simple solutions beat complex ones. Ensure solutions can be delivered by others, not just you. Don't let confidence skip preparation -- success often requires planning and effort.
 
 3. **Temperament:** Know when to change course. Tenacity and perseverance are important, but equally important to recognize when an approach no longer adds value.
+```

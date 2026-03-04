@@ -74,3 +74,4 @@ Entities stored in Cursor (preferences, target companies, etc.) are visible to G
 - **Notion MCP**: We use Linear + TickTick
 - **LinkedIn MCP**: Skipped (account ban risk); use JobSpy anonymous or browsermcp
 - **Adzuna MCP**: Optional later
+```

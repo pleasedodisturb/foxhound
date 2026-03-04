@@ -44,3 +44,4 @@ The score of 30 falls within the suggested range for all tested positions, inclu
 - Data Analytics and Statistics (24-50)
 - IT Manager (20-50)
 - Analyst (22-50)
+```

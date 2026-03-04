@@ -82,3 +82,4 @@ Add:
 ## Profile Photo & Banner
 - Keep current photo if professional
 - Update banner to something related to AI/tech/innovation (remove the Zhadan quote unless intentionally provocative)
+```

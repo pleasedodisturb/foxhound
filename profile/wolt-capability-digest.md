@@ -60,3 +60,4 @@ A private Git repo (`Mx-CRM-Program`) functioning as a persistent AI agent "oper
 Wolt was post-DoorDash acquisition: political chaos, M&A integration stress, burnt-out TPM org resistant to change. IT organization optimized for closing tickets, not solving problems. Staff TPMs saw AI tooling as a threat, not an opportunity. Despite this, the system was built and the program was delivered.
 
 The 94 Jira tickets in 3 months were not a user problem — they were a system signal. The right environment will recognize this as relentlessness, not irritation.
+```

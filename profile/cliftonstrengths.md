@@ -119,3 +119,4 @@ The profile screams **visionary leader / strategic advisor / innovation catalyst
 Best roles leverage the top cluster: communicate a strategic vision (Communication + Strategic + Futuristic), generate creative solutions (Ideation), drive people to act on them (Activator + Command), while adapting to changing conditions (Adaptability) and understanding individuals (Individualization).
 
 The Discipline (#34) and Consistency (#33) at the very bottom explain the Wolt friction perfectly. These are the themes that make someone good at maintaining rigid processes and enforcing uniform standards -- exactly what was expected and exactly what is the antithesis of this profile.
+```

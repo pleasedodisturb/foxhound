@@ -237,3 +237,4 @@ Beyond compensation and role fit, strong preference for companies that align wit
 | 7 | Oxide Computer | Product Engineer | Remote (Pacific overlap) | ★★★★☆ | [Apply](https://oxide.computer/careers) |
 | 8 | Proton | Lead PM (B2B) | Geneva/Barcelona | ★★★☆☆ | [Apply](https://job-boards.eu.greenhouse.io/proton/jobs/4229575101) |
 | 9 | Zapier | PM, Growth | Remote Europe | ★★★☆☆ | [Apply](https://zapier.com/jobs/) |
+```

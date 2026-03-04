@@ -155,3 +155,4 @@ Full list: `profile/target-roles.md`
 3. Activate network — follow up on OpenToWork reactions
 4. Set job alerts for Mozilla, Signal, EU institutions
 5. Continue learning plan (AI architecture)
+```

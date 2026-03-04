@@ -265,3 +265,4 @@ The more context you give the AI, the better it scores:
 140: Vitalik is a relentless, energetic, AI-native builder who happens to have a TPM background. He's technically credible — not in the sense of writing production Java, but in the sense of architecting systems, building automation pipelines, and thinking clearly about how software works. He's a generalist in the best sense: he can go wide and go deep, switch between strategy and execution, and communicate effectively with engineers, executives, and everyone in between. He is looking for an environment that celebrates builders, values range, and has the ambition to build things that matter. Given the right environment, he will be one of the most productive and energizing people on the team.
 ```
 ```
+```
