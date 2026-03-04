@@ -1,0 +1,118 @@
+# Private local-only notes (never commit)
+private/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+.env.local
+*.key
+credentials.json
+
+# Cursor / agent internals
+.cursor/
+agent-transcripts/
+mcps/
+.memory/
+
+# MCP virtual environments
+.venv_mcp/
+
+# Agent/MCP config files (local only)
+.clinerules
+.cursorrules
+.contextstream/
+.kilocode/
+.mcp.json
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+
+# Pre-existing tool scripts (not part of this repo)
+tools/mcp_sanity_check.py
+
+# Node
+node_modules/
+
+# Dashboard build output (regenerated at deploy time)
+dashboard/data.json
+
+# CV build intermediates (PDF/DOCX/HTML are committed as releases)
+cv/rendercv_output/
+
+# Temp
+tmp/
+*.tmp
+*.log
+
+# Third-party MCP (cloned, re-clone if needed)
+jobspy-mcp-server/
+
+# Personal data
+tracking/applications.csv
+tracking/contacts.csv
+germany_jobs_out.json
+germany_jobs_err.txt
+compass_artifact_*.md
+oxide-computer-*.md
+*-intake.md
+
+# Environment
+.env
+.env.local
+*.local
+
+# MCP configs (may contain API keys)
+.cursor/
+mcp.json
+
+
+# Personal data — never commit
+tracking/applications.csv
+tracking/contacts.csv
+tracking/action-log.md
+
+# Job search output files
+germany_jobs_out.json
+germany_jobs_err.txt
+*-intake.md
+compass_artifact_*.md
+
+# Logs
+logs/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# MCP config (may contain API keys)
+.mcp.json
+.cursor/
+.kilocode/
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.cursorrules
+.clinerules

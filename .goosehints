@@ -1,0 +1,98 @@
+# Job Search HQ — Goose Hints
+
+## Who I Am (adapt this to yourself!)
+- **[Your Name]** — describe your identity in one line (e.g. builder, problem-solver, AI-native operator)
+- **[Your City, Country]** — and any relocation constraints
+- **Target:** [salary range] — be honest, it helps scoring
+- **Available:** [date]
+- **I want to:** [what kind of work excites you — build things? lead strategy? both?]
+
+## What I'm Looking For
+
+This is NOT a classic title-based search. Think in capabilities and environments:
+- Product Engineer (e.g. Oxide Computer model — spec it AND build it)
+- AI Engineer / AI Tooling builder
+- Technical PM with real engineering adjacency
+- Founding/early-team builder at AI-native company
+- Solutions Engineer (AI-focused)
+- Innovation Lead / Builder-in-Residence
+
+**Dream companies**: [list yours here]
+**Do NOT cap at specific titles** — if the company is right and the role involves building, score it high.
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `AGENT.md` | Full workflow instructions — job intake, scoring, CSV format |
+| `profile/README.md` | Full professional profile |
+| `profile/target-roles.md` | Scoring rubric, fuzzy search keywords, company tiers |
+| `tracking/applications.csv` | Application log — NEVER overwrite without confirmation |
+| `recipes/job-intake.yaml` | Recipe for processing a job posting |
+| `recipes/job-discover.yaml` | Recipe for searching for new jobs |
+
+## Job Intake Workflow (short version)
+1. Fetch job posting → extract structured data
+2. Score 1-10 vs `profile/target-roles.md` — use fuzzy matching, don't require title match
+3. Append to `tracking/applications.csv` (status: "interested")
+4. Create Linear issue (team ID: `YOUR_LINEAR_TEAM_ID`)
+5. Create TickTick task (project ID: `YOUR_TICKTICK_PROJECT_ID`)
+6. Show clean summary
+
+## Job Discovery — Tools in Order of Preference
+
+1. **JobSpy MCP** (enabled as Goose extension) — multi-board: Indeed, LinkedIn, Glassdoor, Google
+2. **`tools/germany_jobs.py`** — Arbeitsagentur + Arbeitnow, Germany-focused (adapt for your region)
+   - Run with `.venv/bin/python tools/germany_jobs.py`
+   - Use `--preset all` for broad fuzzy search
+   - Use `--preset ai` for AI-focused roles, `--preset builder` for engineering-adjacent
+3. **Brave Search** — ad-hoc web search for company career pages
+
+### Example Keywords (customize for your search)
+**German job boards:**
+```
+Produktmanager, Programmmanager, Projektleiter, Technischer Projektleiter
+IT-Projektmanager, Digitalisierungsmanager, Innovationsmanager, KI-Produktmanager
+```
+
+**English (broad, fuzzy):**
+```
+Technical Program Manager, Technical Product Manager, Product Engineer
+AI Product Manager, AI Engineer, AI Tooling
+Staff Product Manager, Founding Engineer, Solutions Engineer AI
+```
+
+## Scoring Rules (customize these!)
+
+- Fully remote at **remote-first company**: +1.5
+- Remote-eligible role: +1
+- [Your city] office: neutral (0)
+- Within [your country], office-only: -0.5
+- Outside [your country], not remote: cap score at 5
+- **Builder signals** in JD (shipping, building, pipelines, tools): +1
+- **AI-native company** or genuine AI product: +1
+- **Early-stage / founding team**: +1 (not a penalty)
+- **Values-aligned** (privacy, open source, not-evil): +0.5
+- No title match but strong intent match: still score 7+ if everything else fits
+
+## Dream Company Tiers (floor scores — set your own!)
+
+**Tier 0 → floor 8:** [Your absolute dream companies]
+**Tier 1 → floor 7:** [Great fits]
+**Tier 2 → score normally:** [Good but not dream]
+
+## Safety Rules
+- NEVER delete or overwrite `tracking/applications.csv` without explicit user confirmation
+- NEVER modify `profile/target-roles.md` without user approval
+- Always confirm before bulk/destructive operations
+
+## Python Scripts
+- Use `.venv/bin/python` not `python` or `python3`
+- venv is at `[project root]/.venv`
+- Requirements: httpx, python-jobspy, pandas, openai (all in requirements.txt)
+
+## MCP Integrations (update as you configure)
+- **JobSpy** — enabled as Goose extension ✅
+- **contextstream** — optional, for semantic memory
+- **Linear** — optional, for issue tracking
+- **TickTick** — optional, for personal tasks

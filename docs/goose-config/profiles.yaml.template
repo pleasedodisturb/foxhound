@@ -1,0 +1,75 @@
+# Goose profiles - providers and extensions (MCP servers)
+# Copy to ~/.config/goose/profiles.yaml
+# Add extensions via: goose configure
+# See: https://block.github.io/goose/docs/guides/config-files/
+
+# --- Providers (LLM backends) ---
+# providers:
+#   - id: anthropic
+#     type: anthropic
+#     config:
+#       api_key: ${ANTHROPIC_API_KEY}
+
+# --- Extensions (MCP servers) ---
+# Add each extension via `goose configure` or manually.
+# For credential-bearing MCPs, use pass-cli wrapper with mcp-credentials.env
+# See docs/GOOSE_CREDENTIALS.md
+
+# Example: Filesystem (no credentials)
+# extensions:
+#   - id: filesystem
+#     type: command
+#     config:
+#       command: npx
+#       args: ["-y", "@modelcontextprotocol/server-filesystem", "/Users/pleasedodisturb/Projects/Jobs"]
+#       env: {}
+
+# Example: TickTick (with Proton Pass credentials)
+# extensions:
+#   - id: ticktick
+#     type: command
+#     config:
+#       command: pass-cli
+#       args:
+#         - run
+#         - --env-file=/Users/pleasedodisturb/.config/mcp-credentials.env
+#         - --
+#         - /Users/pleasedodisturb/Projects/Jobs/ticktick-sdk/.venv/bin/ticktick-sdk
+#         - server
+#       env: {}
+
+# Example: ContextStream
+# extensions:
+#   - id: contextstream
+#     type: command
+#     config:
+#       command: pass-cli
+#       args:
+#         - run
+#         - --env-file=/Users/pleasedodisturb/.config/mcp-credentials.env
+#         - --
+#         - npx
+#         - --prefer-online
+#         - -y
+#         - "@contextstream/mcp-server@latest"
+#       env: {}
+
+# Example: Brave Search
+# extensions:
+#   - id: brave-search
+#     type: command
+#     config:
+#       command: pass-cli
+#       args:
+#         - run
+#         - --env-file=/Users/pleasedodisturb/.config/mcp-credentials.env
+#         - --
+#         - npx
+#         - -y
+#         - "@brave/brave-search-mcp-server"
+#         - --transport
+#         - stdio
+#       env: {}
+
+# Built-in extensions (enabled by default): Memory, Todo, Developer, Computer Controller, Chat Recall
+# Linear, GitHub: check Goose extensions registry for availability

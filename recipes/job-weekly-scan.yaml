@@ -1,0 +1,77 @@
+version: 1.0.0
+title: "Weekly Job Scan"
+description: "Scheduled weekly discovery — runs all sources, scores, saves digest, no user interaction needed"
+
+instructions: |
+  This is a scheduled/automated job scan. Run silently and produce a digest file.
+  No interactive prompts — make all decisions automatically based on profile/target-roles.md.
+
+  ## Search (same as job-discover but automated)
+
+  ### JobSpy MCP searches:
+  Run all of these:
+  - "AI Product Manager" Germany linkedin,indeed 30 results 168 hours old
+  - "Technical Program Manager AI" Germany linkedin,indeed 30 results 168 hours old  
+  - "Product Engineer" Germany remote linkedin 25 results 168 hours old
+  - "AI Engineer product tools" Germany linkedin,indeed 25 results 168 hours old
+  - "Technical Product Manager" Germany linkedin 25 results 168 hours old
+  - "Solutions Engineer AI" Europe remote linkedin 20 results 168 hours old
+  - "Innovation Lead AI" Germany linkedin 20 results 168 hours old
+
+  ### Germany APIs:
+  Run: .venv/bin/python tools/germany_jobs.py --preset all --limit 25 --output json
+
+  ### Himalayas (remote):
+  Search: "AI Product Manager", "Technical Program Manager AI", "Product Engineer"
+
+  ## Auto-score everything
+  Score all results against profile/target-roles.md.
+  Only keep scores >= 6.
+
+  ## Skip if already tracked
+  Read tracking/applications.csv. Skip any job where company+role already exists in CSV.
+
+  ## Output digest
+  Write to tracking/weekly-scan-YYYY-MM-DD.md:
+  
+  ```
+  # Weekly Job Scan — YYYY-MM-DD
+  
+  ## New Roles Found (score >= 6, not yet tracked)
+  | Score | Company | Role | Location | Source | URL |
+  
+  ## Stats
+  - Total searched: N
+  - Scored >= 6: N  
+  - Already tracked: N
+  - New this week: N
+  
+  ## Quick adds (copy-paste these for job-intake)
+  [URLs of top 5 by score]
+  ```
+
+  Do NOT auto-add to CSV or TickTick — present digest for human review.
+  Save digest file, then print summary to stdout.
+
+activities:
+  - "Run all job searches"
+  - "Score all results"
+  - "Filter already-tracked roles"
+  - "Write weekly digest file"
+  - "Print summary"
+
+extensions:
+  - type: builtin
+    name: developer
+
+parameters:
+  - key: min_score
+    input_type: number
+    requirement: optional
+    description: "Minimum score to include in digest (default: 6)"
+    default: 6
+  - key: hours_old
+    input_type: number
+    requirement: optional
+    description: "How many hours back to search (default: 168 = 1 week)"
+    default: 168
