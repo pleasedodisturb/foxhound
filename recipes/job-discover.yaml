@@ -1,0 +1,83 @@
+# Adapt this recipe to your profile and location
+version: 1.0.0
+title: "Job Discover"
+description: "Search for jobs across all sources, score against profile, present ranked table"
+
+instructions: |
+  You are running a job discovery session for [Your Name] — builder, AI-native generalist,
+  [Your City]-based. Read profile/target-roles.md for scoring rubric and fuzzy keyword guidance.
+
+  ## Search Strategy (run ALL of these, then deduplicate)
+
+  ### 1. JobSpy MCP — LinkedIn + Indeed + Glassdoor
+  Use the search_jobs tool with these searches (run in parallel if possible):
+  - search_term: "AI Product Manager", location: "[Your Country/Region]", site_names: "linkedin,indeed", results_wanted: 25, hours_old: 72, country_indeed: "[Your Country/Region]"
+  - search_term: "Technical Program Manager AI", location: "[Your Country/Region]", site_names: "linkedin,indeed", results_wanted: 25, hours_old: 72, country_indeed: "[Your Country/Region]"
+  - search_term: "Product Engineer AI", location: "[Your Country/Region]", site_names: "linkedin,indeed", results_wanted: 20, hours_old: 72, country_indeed: "[Your Country/Region]", is_remote: true
+  - search_term: "AI Engineer product", location: "[Your Country/Region]", site_names: "linkedin,indeed", results_wanted: 20, hours_old: 72, country_indeed: "[Your Country/Region]"
+  - search_term: "Technical Product Manager developer tools", location: "[Your Country/Region]", site_names: "linkedin", results_wanted: 20, hours_old: 72
+
+  ### 2. Local Job APIs
+  Run: .venv/bin/python tools/local_jobs.py --preset all --location "[Your City]" --limit 20 --output json
+  Adapt this script to your local job boards and preferred languages.
+  Example keywords to cover: Product Manager, AI Product Manager, Program Manager, Technical Project Lead, etc.
+
+  ### 3. Himalayas MCP (remote-only)
+  If Himalayas MCP is available, search for: "AI Product Manager remote", "Technical Program Manager AI remote", "Product Engineer remote Europe"
+
+  ## Scoring Rules (from profile/target-roles.md)
+  - [Your City] or fully remote: no penalty
+  - Within [Your Country/Region], not [Your City]: -0.5
+  - Outside [Your Country/Region], not remote: cap at 5
+  - AI-native company or genuine AI product: +1
+  - Builder signals in JD (shipping, pipelines, tools, building): +1
+  - Early-stage / founding team: +1
+  - Dream companies (Lovable, Mistral, Oxide, DeepL, Aleph Alpha, GitLab, Block): start at 7 baseline
+  - PMBOK-heavy, no AI component: -2
+  - Requires specific domain experience (construction, healthcare): -2
+
+  ## Deduplication
+  Remove duplicates by (company + role title). Keep highest score version.
+
+  ## Output Format
+  Present a ranked table sorted by score descending:
+  | # | Score | Company | Role | Location | Remote | Source | URL |
+  
+  Then ask: "Which roles do you want to add to tracking? (enter numbers, e.g. 1,3,5 or 'all')"
+  For each selected role, run the job-intake workflow (score, append CSV, create TickTick task).
+
+  ## Filters to skip
+  - Roles requiring 5+ years specific domain (construction, medical devices, etc.) unless clearly AI-adjacent
+  - Roles with "Junior" or requiring <3 years experience
+  - Roles clearly outside [Your Country/Region] with no remote option
+
+activities:
+  - "Search JobSpy MCP (LinkedIn/Indeed/Glassdoor)"
+  - "Search local job APIs"
+  - "Search Himalayas for remote roles"
+  - "Deduplicate and score all results"
+  - "Present ranked table"
+  - "Add selected roles to tracking"
+
+extensions:
+  - type: builtin
+    name: developer
+  - type: builtin
+    name: computercontroller
+
+parameters:
+  - key: keywords
+    input_type: string
+    requirement: optional
+    description: "Override keywords (default: runs full preset)"
+    default: ""
+  - key: hours_old
+    input_type: number
+    requirement: optional
+    description: "Max age of listings in hours (default: 72)"
+    default: 72
+  - key: remote_only
+    input_type: boolean
+    requirement: optional
+    description: "Only show remote-eligible roles"
+    default: false
