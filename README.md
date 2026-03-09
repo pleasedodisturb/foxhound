@@ -109,6 +109,8 @@ cp tracking/applications.csv.example tracking/applications.csv
 # This file is gitignored — your data stays local
 ```
 
+For detailed per-agent setup, MCP configuration, and optional integrations, see [docs/SETUP.md](docs/SETUP.md).
+
 ### 4. Run your first job intake
 
 Open the project in your AI agent of choice and tell it:
