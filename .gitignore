@@ -23,6 +23,7 @@ env/
 
 # OS
 .DS_Store
+**/.DS_Store
 Thumbs.db
 
 # Environment / secrets
@@ -31,24 +32,26 @@ Thumbs.db
 *.key
 credentials.json
 
-# Cursor / agent internals
+# Agent internals (local only)
 .cursor/
+.kilocode/
+.contextstream/
+.memory/
+.clinerules
+.cursorrules
 agent-transcripts/
 mcps/
-.memory/
 
 # MCP virtual environments
 .venv_mcp/
 
-# Agent/MCP config files (local only)
-.clinerules
-.cursorrules
-.contextstream/
-.kilocode/
+# Agent config files with API keys (local only)
 .mcp.json
 AGENTS.md
-CLAUDE.md
 GEMINI.md
+
+# Claude Code local settings (personal paths/permissions)
+.claude/settings.local.json
 
 # Pre-existing tool scripts (not part of this repo)
 tools/mcp_sanity_check.py
@@ -59,60 +62,26 @@ node_modules/
 # Dashboard build output (regenerated at deploy time)
 dashboard/data.json
 
-# CV build intermediates (PDF/DOCX/HTML are committed as releases)
+# CV build intermediates
 cv/rendercv_output/
 
-# Temp
+# Temp / logs
 tmp/
 *.tmp
 *.log
+logs/
 
 # Third-party MCP (cloned, re-clone if needed)
 jobspy-mcp-server/
-
-# Personal data
-tracking/applications.csv
-tracking/contacts.csv
-germany_jobs_out.json
-germany_jobs_err.txt
-compass_artifact_*.md
-oxide-computer-*.md
-*-intake.md
-
-# Environment
-.env
-.env.local
-*.local
-
-# MCP configs (may contain API keys)
-.cursor/
-mcp.json
-
 
 # Personal data — never commit
 tracking/applications.csv
 tracking/contacts.csv
 tracking/action-log.md
-
-# Job search output files
 germany_jobs_out.json
 germany_jobs_err.txt
-*-intake.md
 compass_artifact_*.md
-
-# Logs
-logs/
-
-# macOS
-.DS_Store
-**/.DS_Store
-
-# MCP config (may contain API keys)
-.mcp.json
-.cursor/
-.kilocode/
-CLAUDE.md
-AGENTS.md
-GEMINI.md
-.cursorrules
-.clinerules
+oxide-computer-*.md
+# Job intake scratch files (not .claude/commands/)
+*-intake.md
+!.claude/commands/job-intake.md
