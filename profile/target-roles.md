@@ -60,6 +60,27 @@ A position where strategic thinking, communication, AI proficiency, and bias for
 
 ---
 
+## Tier 2.5: Consulting / Fractional / B2B Portfolio
+
+### Fractional AI Lead / Fractional CTO
+- B2B consulting for 1-3 companies simultaneously. AI transformation strategy, technical program leadership, or product build-outs as an external expert.
+- **Why it fits:** 10+ years shipping at scale + AI-native builder = rare combination companies pay 150-200 EUR/hr for. Most companies need this but can't justify a full-time hire.
+- **Model A:** Full-time job (covers social insurance) + 1-2 B2B side gigs (with employer approval)
+- **Model B:** Pure freelance/consulting with 2-3 clients (higher income, handle own insurance/pension)
+- **Where to find:** Toptal, Malt, freelancermap.de, GULP, LinkedIn "consulting", direct network, fractional exec marketplaces
+
+### Contract / Project-Based Roles
+- Fixed-term (3-12 month) engagements as AI Program Lead, interim TPM, or product builder. Common in enterprise (SAP, Siemens, automotive).
+- **Why it fits:** Same work as full-time but higher daily rate, more autonomy, exposure to multiple domains.
+- **Where to look:** Hays, Michael Page, freelancermap.de, GULP, Robert Half Technology
+
+### Consulting Positioning
+- **Offer:** "I help companies ship AI products — from strategy to production. I've done it at [big company] scale and startup speed."
+- **Ideal clients:** Series A-C startups building AI features, mid-market companies starting AI transformation, enterprises needing external AI program leadership
+- **Deliverables:** AI product strategy, technical program setup, LLM pipeline architecture, team hiring/structure, first AI feature shipped
+
+---
+
 ## Tier 3: Fallback / Bridge Roles
 
 ### Senior TPM (with AI mandate)
@@ -98,6 +119,7 @@ Roles that offer this trajectory — even if the title or comp is slightly below
 | Early-stage / founding team | +1 (not a penalty) |
 | Strong values alignment (open source, privacy, EU sovereignty) | +1 |
 | No title match but strong intent match | Still score 7+ if everything else fits |
+| B2B contract / fractional / consulting | +1 (portfolio income, stackable) |
 | Role at Lovable, Mistral, Oxide, Block, or similar → | Start at 7 baseline regardless of title |
 | PMBOK-heavy, no AI, process theater | -2 |
 | Requires relocation outside Germany | Cap at 5 |
@@ -129,6 +151,8 @@ Staff Product Manager, Product Builder, Developer Relations (AI)
 Solutions Engineer AI, Innovation Lead, Builder, Founding Engineer
 Platform Engineer (AI), AI Workflow Engineer, Prompt Engineer (senior)
 Developer Advocate AI, AI Infrastructure, LLM Engineer, Agentic Systems
+Fractional CTO, Fractional AI Lead, AI Consultant, Contract TPM
+Interim Program Manager, B2B AI Consulting, Freelance Product Manager
 ```
 
 ### Role Intent (match even when title doesn't match)
@@ -218,9 +242,13 @@ Beyond compensation and role fit, strong preference for companies that align wit
 - Trade Republic, N26 (Berlin, remote)
 - SAP (AI division), Siemens (AI/Digital)
 
-### Consulting / Advisory (Fallback)
-- McKinsey Digital, BCG X, Bain (AI practice)
-- Thoughtworks, EPAM
+### Consulting / Fractional Platforms
+- **Toptal** — high-end, curated, AI/PM/TPM tracks
+- **Malt** — strong EU presence, B2B freelance marketplace
+- **freelancermap.de / GULP** — German/EU enterprise contract market, AI transformation projects
+- **Fractional exec marketplaces** — CTO, VP Eng, AI Lead roles
+- **Robert Half Technology / Hays** — interim/contract TPM placements
+- Direct outreach via LinkedIn + professional network
 
 ---
 

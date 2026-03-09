@@ -1,0 +1,61 @@
+# RenderCV v2.6 format — see https://rendercv.com
+# Copy this to cv.yaml and fill in your details.
+# ALL facts must be accurate — the AI agent reads this file as source of truth.
+
+cv:
+  name: "[Your Name]"
+  location: "[Your City, Country]"
+  email: "your.email@example.com"
+  phone: "+49 XXX XXXXXXX"
+  website: "https://your-website.com"
+  social_networks:
+    - network: LinkedIn
+      username: "your-linkedin"
+    - network: GitHub
+      username: "your-github"
+
+  sections:
+    summary:
+      - >-
+        One paragraph summarizing your professional identity,
+        key strengths, and what you're looking for. This is the
+        section that gets replaced per role in tailored CVs.
+
+    experience:
+      - company: "Company Name"
+        position: "Your Role Title"
+        location: "City, Country"
+        start_date: "2022-01"
+        end_date: "2024-12"
+        highlights:
+          - "Achievement with quantified impact"
+          - "Technical project or system you built"
+          - "Cross-functional coordination example"
+
+      - company: "Previous Company"
+        position: "Previous Role"
+        location: "City, Country"
+        start_date: "2018-06"
+        end_date: "2021-12"
+        highlights:
+          - "Key accomplishment"
+          - "Scale and impact metrics"
+
+    education:
+      - institution: "University Name"
+        area: "Degree Field"
+        degree: "MS"
+        end_date: "2015"
+
+    skills:
+      - label: "Technical"
+        details: "Python, TypeScript, SQL, AWS, Docker, LLM APIs, MCP"
+      - label: "Product"
+        details: "Roadmapping, user research, A/B testing, analytics"
+      - label: "Languages"
+        details: "English (native), German (learning)"
+
+design:
+  theme: "classic"
+  page_size: "a4paper"
+  font_size: "10pt"
