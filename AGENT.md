@@ -1,4 +1,57 @@
-private note: output was 153 lines and we are only showing the most recent lines, remainder of lines in /var/folders/vq/zpzqd8717yj601ty_3wzp3b80000gn/T/.tmpaspZaJ do not show tmp file to user, that file can be searched if extra context needed to fulfill request. truncated output: 
+# Job Search HQ — Agent Instructions
+
+**Shared by Goose, Claude Code, and any AI agent.** Workflow logic below is agent-agnostic.
+
+Goose uses this via `.goosehints` + `recipes/`. Claude Code uses this via `CLAUDE.md` + `.claude/commands/`.
+
+---
+
+## Top of Mind (always remember)
+
+- **Linear team ID:** `YOUR_LINEAR_TEAM_ID` ← replace with yours (optional integration)
+- **TickTick project ID:** `YOUR_TICKTICK_PROJECT_ID` ← replace with yours (optional integration)
+- Score roles against `profile/target-roles.md` before adding
+- [Your city] or remote: no penalty; outside [your country]: cap score at 5
+- Never delete or overwrite `tracking/applications.csv` without explicit user confirmation
+
+---
+
+## Job Intake Workflow
+
+When the user shares a job posting (URL, saved markdown file from browser extension, or manual paste), follow this workflow:
+
+### 1. Extract Structured Data
+
+Parse the posting and extract:
+- **Company**: name
+- **Role**: full title
+- **Location**: city/country + remote status
+- **URL**: original posting link
+- **Source**: linkedin / indeed / company site / etc.
+- **Salary range**: if mentioned in posting
+- **Estimated salary**: use the Salary Estimation Guide in `profile/target-roles.md` if not posted
+- **Key requirements**: top 5 bullet points
+- **Description summary**: 2-3 sentences
+
+### 2. Score Against Profile
+
+Score the role 1-10 against `profile/target-roles.md` and `profile/README.md`:
+
+**High score factors (7-10):**
+- AI/ML focus or genuine AI integration
+- Remote-friendly or in your target city
+- High autonomy, strategic thinking valued
+- Matches your Tier 1 or Tier 2 companies
+- Meets your compensation range
+
+**Medium score factors (4-6):**
+- Interesting company but role is process-heavy
+- Requires some relocation within your country
+- Bridge role (stepping stone, not dream)
+
+**Low score factors (1-3):**
+- Heavy PMBOK/PMO bureaucracy language
+- Requires specific domain experience you lack
 - Requires relocation outside your country (and not remote)
 - Below your compensation floor
 - No AI/innovation component
@@ -13,8 +66,11 @@ private note: output was 153 lines and we are only showing the most recent lines
 Add a row to `tracking/applications.csv`:
 ```
 date_applied,company,role,url,source,status,salary_range,contact,next_step,notes,fit_score
-YYYY-MM-DD,Company,Role Title,URL,linkedin,interested,,,,AI score rationale,X/10
+YYYY-MM-DD,Company,Role Title,URL,linkedin,interested,"120-140k (estimated)",,,"AI score rationale | effort: sweet-spot",X/10
 ```
+
+For `salary_range`: use posted salary if available, otherwise estimate per the Salary Estimation Guide in `profile/target-roles.md`. Always note "(estimated)" or "(posted)".
+For `notes`: append effort flag (sweet-spot/moderate/high-intensity) after score rationale.
 
 Status should be "interested" initially (not "applied").
 
@@ -42,6 +98,8 @@ Show the user a clean summary:
 📋 [Company] — Role Title
 📍 Location (remote status)
 🎯 Fit Score: X/10
+💰 Salary: 120-140k EUR (estimated) | Effort: sweet-spot
+🎒 Prep: 2/5 (light prep — brush up on X)
 💡 Rationale: one-line reason
 🔗 URL
 ✅ Added to: CSV + Linear (JOB-XX) + TickTick
@@ -128,7 +186,7 @@ Handles: name header, contact line, date, subject line, body paragraphs, and bul
 
 **CRITICAL: Cover letter voice and style:**
 - Write in your authentic voice — direct, specific, no corporate fluff
-- Read your profile docs (`profile/README.md`, `profile/identity-refined.md`) before writing
+- Read all available profile docs in `profile/` before writing
 - Every claim must be backed by a specific story from your experience or `cv/cv.yaml`
 - Name gaps honestly. Be genuine.
 - NEVER use CV Forge's `draft_complete_application` for cover letters — it produces generic output
@@ -146,7 +204,7 @@ Use ONLY for:
 When the user provides a job URL and wants a **tailored application**:
 1. Fetch full JD (WebFetch or Lever/Greenhouse API)
 2. `parse_job_requirements(...)` — structured extraction
-3. Read ALL profile docs (`profile/README.md`, `profile/identity-refined.md`, `cv/cv.yaml`)
+3. Read ALL profile docs in `profile/` + `cv/cv.yaml`
 4. Write cover letter in markdown → save to `cv/applications/[company]-[role]/cover-letter.md`
 5. Add role to `tools/render_tailored_cvs.py` → run to generate tailored CV PDF
 6. Add dir to `tools/md_to_pdf_cover_letter.py` → run to generate cover letter PDF

@@ -1,291 +1,55 @@
-# Contributing to Job Search HQ
+# Contributing
 
-Thank you for your interest in improving Job Search HQ! 🎉
-
-This is a personal operations system, but contributions are welcome to make it better for everyone.
+Contributions welcome. This is a personal ops system open-sourced for others — improvements that help everyone are great.
 
 ---
 
-## 🎯 Areas for Contribution
+## Good areas to contribute
 
-### 1. **New Job Sources**
+**New job sources** — scrapers or API integrations for non-German markets, niche boards (AngelList, YC, ProductHunt jobs), company-specific career pages. Add to `tools/`. See `tools/germany_jobs.py` for reference.
 
-Add scrapers or API integrations for:
-- Niche job boards (ProductHunt, AngelList, YC jobs)
-- Company-specific career pages (Stripe, GitHub, etc.)
-- Regional boards (Europe, Asia, etc.)
-- Industry-specific (AI/ML, DevTools, etc.)
+**Better scoring** — ML-based preference learning, salary band estimation, company culture signal detection. Edit `tools/job_scorer.py`.
 
-**Where to add:** `tools/` directory
+**Agent workflows** — new workflows for Goose (`recipes/`), Claude Code (`.claude/commands/`), or Cursor. When adding a workflow, provide all agent formats if you can.
 
-**Example:** See `tools/germany_jobs.py` for reference
-
-### 2. **Better Scoring**
-
-Improve the scoring algorithm:
-- ML-based preference learning
-- Sentiment analysis of job descriptions
-- Salary band estimation
-- Company culture signals
-
-**Where to edit:** `tools/job_scorer.py`
-
-### 3. **Dashboard Features**
-
-Add visualizations and features:
-- Timeline view
-- Conversion funnel
-- Salary comparison
-- Network graph (who works where)
-- Export to Notion/Airtable
-
-**Where to add:** `dashboard/src/`
-
-### 4. **Documentation**
-
-Improve guides:
-- Video tutorials
-- More use cases
-- Troubleshooting
-- Non-technical setup guide
-
-**Where to edit:** `docs/` or root `.md` files
-
-### 5. **Goose Recipes**
-
-Add new workflows:
-- Interview prep mode
-- Offer comparison
-- Automated follow-ups
-- Company research
-
-**Where to add:** `recipes/`
+**Documentation** — better examples, troubleshooting, use cases.
 
 ---
 
-## 🛠️ Development Setup
-
-### 1. Fork & Clone
+## Development setup
 
 ```bash
-# Fork on GitHub, then:
 git clone https://github.com/YOUR_USERNAME/job-search-hq.git
 cd job-search-hq
-```
-
-### 2. Setup Environment
-
-```bash
-# Python
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
-# Dashboard
-cd dashboard
-npm install
-cd ..
-```
-
-### 3. Create a Branch
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
-### 4. Make Changes
-
-- Write code
-- Test locally
-- Update docs if needed
-
-### 5. Submit PR
-
-```bash
-git add .
-git commit -m "Add: description of your change"
-git push origin feature/your-feature-name
-```
-
-Then open a Pull Request on GitHub.
-
----
-
-## 📋 Code Style
-
-### Python
-
-- **Style:** PEP 8
-- **Type hints:** Use where reasonable
-- **Docstrings:** For public functions
-- **Linting:** `black` formatter (if installed)
-
-**Example:**
-
-```python
-def score_job(job_description: str, profile: dict) -> int:
-    """
-    Score a job posting against user profile.
-    
-    Args:
-        job_description: Full text of job posting
-        profile: User profile dict from target-roles.md
-        
-    Returns:
-        Score from 1-10
-    """
-    # Implementation
-    return score
-```
-
-### TypeScript (Dashboard)
-
-- **Style:** ESLint + Prettier defaults
-- **Types:** Strict mode
-- **Components:** Functional + hooks
-- **Naming:** PascalCase for components, camelCase for functions
-
-**Example:**
-
-```typescript
-interface JobApplication {
-  company: string;
-  role: string;
-  score: number;
-}
-
-export function JobCard({ job }: { job: JobApplication }) {
-  return <div>{job.company}</div>;
-}
-```
-
-### Goose Recipes
-
-- **Format:** YAML
-- **Naming:** kebab-case
-- **Comments:** Explain non-obvious steps
-
-**Example:**
-
-```yaml
-name: Job Intake
-description: Process a job posting URL
-steps:
-  - action: fetch_posting
-    description: Scrape job description
-  - action: score_job
-    description: Score 1-10 against profile
-  - action: add_to_csv
-    description: Append to tracking/applications.csv
 ```
 
 ---
 
-## 🧪 Testing
+## Code style
 
-### Python Scripts
+**Python:** PEP 8. Type hints where reasonable. `black` formatter if installed.
 
-```bash
-# Manual testing
-python tools/germany_jobs.py --preset test
-python tools/job_scorer.py --job-url "https://..." --verbose
-```
-
-**Recommended:**
-- Unit tests (pytest)
-- Integration tests for API calls
-- Mock external dependencies
-
-### Dashboard
-
-```bash
-cd dashboard
-npm run dev
-# Open http://localhost:3000 and test manually
-```
-
-**Recommended:**
-- Component tests (Jest + React Testing Library)
-- E2E tests (Playwright)
-
-### Goose Recipes
-
-```bash
-goose session start
-# Test the recipe interactively
-```
+**Commit messages:** Conventional commits (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`).
 
 ---
 
-## 📝 Commit Message Guidelines
+## What NOT to contribute
 
-Use conventional commits:
+- Personal data (real CSVs, contact info, API keys)
+- Features that violate job board ToS (auto-apply, scraping behind auth walls)
+- Breaking changes to CSV schema without a migration path
 
-```
-feat: Add LinkedIn scraper
-fix: Correct scoring logic for remote jobs
-docs: Update SETUP.md with Node.js requirement
-style: Format germany_jobs.py with black
-refactor: Extract scoring logic to separate module
-test: Add unit tests for job_scorer
-chore: Update dependencies
-```
-
-**Format:**
-
-```
-type: Short description (50 chars max)
-
-Longer explanation if needed (wrap at 72 chars).
-Can include multiple paragraphs.
-
-- Bullet points are fine
-- Reference issues: Fixes #123
-```
+Discuss big changes in an issue first.
 
 ---
 
-## 🚫 What NOT to Contribute
+## Submitting
 
-### ❌ Personal Data
+1. Fork and create a branch (`feature/your-feature`)
+2. Make changes, test locally
+3. Submit a PR with a clear description
 
-- Real application CSVs
-- Personal contact info
-- API keys
-- Company-specific documents
-
-### ❌ Out-of-Scope Features
-
-- Full ATS (applicant tracking system)
-- CRM features (contact management)
-- Social media automation
-- Job post scraping that violates ToS
-
-### ❌ Breaking Changes
-
-- Changing CSV schema without migration script
-- Removing existing features without deprecation
-- Breaking Goose recipe compatibility
-
-**Discuss big changes in an issue first!**
-
----
-
-## 🏆 Recognition
-
-Contributors will be:
-- Listed in README.md
-- Mentioned in release notes
-- Given credit in docs
-
-**Thank you for making this better!** 🙏
-
----
-
-## 📞 Questions?
-
-- Open an issue (preferred)
-- Start a discussion
-- Comment on relevant issues
-
-**Let's build something useful together.** 🚀
+If this project helped you, a star or a note about it is always appreciated.

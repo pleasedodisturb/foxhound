@@ -15,12 +15,9 @@ Roles: [your target role types, e.g. Senior TPM, Product Engineer, AI Program Le
 
 ## Workflows
 
-All job intake, scoring, discovery, and application workflows are in `AGENT.md`. Read it before any job-related task.
+**Read `AGENT.md` before any job-related task.** It contains all shared workflow logic (intake, scoring, discovery, application prep). This file only has Claude Code-specific settings.
 
-Before writing cover letters, read:
-- `profile/README.md` (professional identity)
-- `profile/identity-refined.md` (personal identity statement)
-- Any voice/identity docs you add to `profile/`
+Before writing cover letters, read all docs in `profile/` — identity, narrative, assessments, writing samples. The more context, the more authentic the output.
 
 Write in your authentic voice — direct, specific, no corporate fluff. Every claim backed by a specific story.
 

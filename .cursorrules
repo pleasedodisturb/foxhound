@@ -1,0 +1,57 @@
+# Job Search HQ — Cursor Rules
+
+Read `AGENT.md` before any job-related task. It contains all workflow logic.
+
+## Who
+
+[Your Name]. [Your City, Country]. [Relocation constraints].
+Target: [salary range]. [Availability].
+Roles: [your target role types].
+
+## Workflows
+
+- **Job intake:** Read AGENT.md § "Job Intake Workflow"
+- **Job discovery:** Read AGENT.md § "Job Discovery"
+- **Application prep:** Read AGENT.md § "Application Preparation Toolkit"
+
+Before writing cover letters, read all docs in `profile/` — the more context, the more authentic the output.
+
+Write in authentic voice — direct, specific, no corporate fluff.
+
+## Key Files
+
+| Path | Purpose |
+|------|---------|
+| `AGENT.md` | All workflow logic (intake, scoring, discovery, application prep) |
+| `profile/target-roles.md` | Scoring rubric — company tiers, role types, location rules |
+| `profile/README.md` | Professional identity and strengths |
+| `tracking/applications.csv` | Application log (canonical, gitignored) |
+| `cv/cv.yaml` | CV source of truth (RenderCV format) |
+| `tools/` | Python scripts (discovery, scoring, CV generation) |
+
+## MCP Setup
+
+Configure in `~/.cursor/mcp.json` (or project `.mcp.json`):
+- **jobspy** — multi-board job search
+- **memory** (mcp-memory-service) — semantic memory across sessions
+- See `.mcp.json.example` for config templates
+
+## Scoring Quick Reference
+
+- Remote-first: +1.5
+- Builder signals: +1
+- AI-native company: +1
+- Dream tier companies: floor 8
+- Your city / remote: neutral. Your country: -0.5. Outside country: cap 5.
+- Full rubric in AGENT.md and profile/target-roles.md
+
+## Python
+
+- Use `.venv/bin/python` (project venv at root)
+- Never install packages globally
+
+## Safety
+
+- NEVER delete or overwrite `tracking/applications.csv` without explicit confirmation
+- NEVER modify `profile/target-roles.md` without approval
+- Ask before any bulk or destructive operation

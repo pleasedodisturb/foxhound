@@ -1,5 +1,7 @@
 # Job Search HQ — Goose Hints
 
+**Read `AGENT.md` for all workflow logic** (intake, scoring, discovery, application prep). This file has Goose-specific context only.
+
 ## Who I Am (adapt this to yourself!)
 - **[Your Name]** — describe your identity in one line (e.g. builder, problem-solver, AI-native operator)
 - **[Your City, Country]** — and any relocation constraints
@@ -46,7 +48,7 @@ This is NOT a classic title-based search. Think in capabilities and environments
    - Run with `.venv/bin/python tools/germany_jobs.py`
    - Use `--preset all` for broad fuzzy search
    - Use `--preset ai` for AI-focused roles, `--preset builder` for engineering-adjacent
-3. **Brave Search** — ad-hoc web search for company career pages
+3. **Web search** — ad-hoc search for company career pages
 
 ### Example Keywords (customize for your search)
 **German job boards:**
@@ -93,6 +95,6 @@ Staff Product Manager, Founding Engineer, Solutions Engineer AI
 
 ## MCP Integrations (update as you configure)
 - **JobSpy** — enabled as Goose extension ✅
-- **contextstream** — optional, for semantic memory
+- **memory** (mcp-memory-service) — optional, for semantic memory across sessions
 - **Linear** — optional, for issue tracking
 - **TickTick** — optional, for personal tasks
