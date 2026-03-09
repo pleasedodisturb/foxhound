@@ -26,7 +26,7 @@ DEFAULT_KEYWORDS = [
 ]
 
 DEFAULT_SITES = ["linkedin", "indeed", "glassdoor", "google"]
-DEFAULT_LOCATION = "Frankfurt, Germany"
+DEFAULT_LOCATION = "Your City, Country"  # TODO: Set your location
 DEFAULT_HOURS_OLD = 72
 DEFAULT_RESULTS_PER_KEYWORD = 30
 

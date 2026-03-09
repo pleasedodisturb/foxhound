@@ -1,7 +1,7 @@
 import json, subprocess, sys
 
 result = subprocess.run(
-    ['.venv/bin/python', 'tools/germany_jobs.py', '--preset', 'all', '--location', 'Frankfurt', '--limit', '25', '--output', 'json'],
+    ['.venv/bin/python', 'tools/germany_jobs.py', '--preset', 'all', '--location', 'Your City', '--limit', '25', '--output', 'json'],  # TODO: Set your location
     capture_output=True, text=True
 )
 

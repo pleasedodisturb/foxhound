@@ -1,12 +1,12 @@
 # NOTE: Run this script with the project's venv:
-#   .venv/bin/python tools/germany_jobs.py --keywords "TPM" --location "Frankfurt"
+#   .venv/bin/python tools/germany_jobs.py --keywords "TPM" --location "Berlin"
 #   .venv/bin/python tools/germany_jobs.py --preset tpm --score
 #   .venv/bin/python tools/germany_jobs.py --preset all --remote --output json
 """
 Germany job search via Arbeitsagentur and Arbeitnow APIs.
 
 Free APIs for Germany-focused roles. Run via Goose Developer:
-  .venv/bin/python tools/germany_jobs.py --keywords "TPM" --location "Frankfurt"
+  .venv/bin/python tools/germany_jobs.py --keywords "TPM" --location "Berlin"
   .venv/bin/python tools/germany_jobs.py --keywords "Product Manager" --limit 20 --output json
   .venv/bin/python tools/germany_jobs.py --preset tpm --score
   .venv/bin/python tools/germany_jobs.py --preset all --remote --score
@@ -301,7 +301,7 @@ def main() -> None:
         choices=["tpm", "pm", "ai", "builder", "all"],
         help="Keyword preset: tpm, pm, ai, builder, or all"
     )
-    parser.add_argument("--location", default="Frankfurt", help="Location (default: Frankfurt)")
+    parser.add_argument("--location", default="Berlin", help="Location (default: Berlin)")
     parser.add_argument("--limit", type=int, default=25, help="Max results per keyword per source (default: 25)")
     parser.add_argument("--remote", action="store_true", help="Filter remote/telework only")
     parser.add_argument("--output", choices=["csv", "json"], default="csv", help="Output format")
