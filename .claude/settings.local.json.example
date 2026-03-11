@@ -1,0 +1,20 @@
+{
+  "_comment": "Copy to .claude/settings.local.json and update paths. This file is gitignored.",
+  "permissions": {
+    "allow": [
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "mcp__memory__memory_store",
+      "mcp__memory__memory_search",
+      "mcp__jobspy__search_jobs",
+      "Bash(/path/to/project/.venv/bin/python /path/to/project/tools/germany_jobs.py:*)",
+      "Bash(/path/to/project/.venv/bin/python /path/to/project/tools/job_scorer.py:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}

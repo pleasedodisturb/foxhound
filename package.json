@@ -1,0 +1,12 @@
+{
+  "name": "foxhound",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:links": "node --test tests/validate-links.test.js",
+    "test:words": "node --test tests/banned-words.test.js",
+    "test:structure": "node --test tests/structure.test.js",
+    "test:lint": "node --test tests/markdown-lint.test.js"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "_comment": "Copy this to .mcp.json and update paths for your system. .mcp.json is gitignored.",
+  "mcpServers": {
+    "memory": {
+      "_comment": "doobidoo/mcp-memory-service — pip install mcp-memory-service in your .venv",
+      "command": "/path/to/your/project/.venv/bin/memory",
+      "args": ["server"],
+      "env": {
+        "MCP_MEMORY_STORAGE_BACKEND": "sqlite_vec",
+        "MCP_MEMORY_SQLITE_PATH": "/path/to/your/.mcp_memory/memory.db",
+        "UV_PYTHON_PREFERENCE": "only-managed"
+      }
+    },
+    "jobspy": {
+      "_comment": "Multi-board job search — see https://github.com/isidrok/mcp-server-jobspy",
+      "command": "node",
+      "args": ["/path/to/your/jobspy-mcp-server/src/index.js"]
+    },
+    "context7": {
+      "_comment": "Documentation lookup — no local config needed",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    }
+  },
+  "_on_demand_examples": {
+    "_comment": "Copy individual entries into mcpServers above when needed, remove after",
+    "ticktick": {
+      "_comment": "Task management — see https://github.com/felores/ticktick-mcp-server",
+      "command": "/path/to/your/project/.venv/bin/ticktick-mcp-server",
+      "args": ["run"]
+    },
+    "himalayas": {
+      "_comment": "Remote job listings (no API key needed)",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.himalayas.app/sse"]
+    },
+    "cv-forge": {
+      "_comment": "CV/resume parsing and generation",
+      "command": "npx",
+      "args": ["-y", "cv-forge"]
+    },
+    "browsermcp": {
+      "_comment": "Browser automation for scraping",
+      "command": "npx",
+      "args": ["-y", "@browsermcp/mcp@latest"]
+    },
+    "linear": {
+      "_comment": "Issue tracking — requires LINEAR_API_KEY env var",
+      "command": "npx",
+      "args": ["-y", "@linear/mcp-server"],
+      "env": {
+        "LINEAR_API_KEY": "your_linear_api_key_here"
+      }
+    }
+  }
+}

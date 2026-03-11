@@ -1,0 +1,84 @@
+# Private local-only notes (never commit)
+private/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+.env.local
+*.key
+credentials.json
+
+# Agent internals (local only)
+.cursor/
+.kilocode/
+.memory/
+.clinerules
+# Note: .cursorrules IS committed (agent config). .cursor/ (local state) is not.
+agent-transcripts/
+mcps/
+
+# MCP virtual environments
+.venv_mcp/
+
+# Agent config files with API keys (local only)
+.mcp.json
+AGENTS.md
+GEMINI.md
+
+# Claude Code local settings (personal paths/permissions)
+.claude/settings.local.json
+
+# Pre-existing tool scripts (not part of this repo)
+tools/mcp_sanity_check.py
+
+# Node
+node_modules/
+
+# CV build intermediates
+cv/rendercv_output/
+
+# Temp / logs
+tmp/
+*.tmp
+*.log
+logs/
+
+# Third-party MCP (cloned, re-clone if needed)
+jobspy-mcp-server/
+
+# Personal data — never commit
+tracking/applications.csv
+tracking/contacts.csv
+tracking/action-log.md
+germany_jobs_out.json
+germany_jobs_err.txt
+compass_artifact_*.md
+oxide-computer-*.md
+
+# Job intake scratch files (not .claude/commands/)
+*-intake.md
+!.claude/commands/job-intake.md
