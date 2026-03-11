@@ -470,6 +470,58 @@ def scrape_germantechjobs(limit: int = 50) -> list[ScrapedJob]:
     return jobs
 
 
+# --- Source: AI-Jobs.net (free JSON API, AI/ML-specific) ---
+
+AIJOBS_API = "https://ai-jobs.net/api/list-jobs/"
+
+def scrape_aijobs(limit: int = 100) -> list[ScrapedJob]:
+    """
+    Scrape ai-jobs.net's free JSON API. No auth required.
+    Returns most recent 200 jobs, updated every ~2 hours.
+    Covers AI, ML, NLP, Computer Vision, Data Science.
+    https://insights.ai-jobs.net/jobs-via-rss-feed-and-json-api/
+    """
+    jobs: list[ScrapedJob] = []
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    def _fetch():
+        with httpx.Client(timeout=30, headers={"User-Agent": _get_user_agent()}) as client:
+            r = client.get(AIJOBS_API)
+            r.raise_for_status()
+            return r.json()
+
+    data = _retry_with_backoff(_fetch)
+    if not data:
+        return jobs
+
+    # API returns a list of job dicts
+    listings = data if isinstance(data, list) else data.get("jobs", data.get("data", []))
+
+    for j in listings[:limit]:
+        # Fields vary — handle flexibly
+        salary = ""
+        if j.get("salary_min") and j.get("salary_max"):
+            currency = j.get("salary_currency", "USD")
+            salary = f"{j['salary_min']}-{j['salary_max']} {currency}"
+
+        jobs.append(ScrapedJob(
+            title=j.get("title", j.get("job_title", "")),
+            company=j.get("company", j.get("company_name", "")),
+            location=j.get("location", ""),
+            url=j.get("url", j.get("apply_url", j.get("link", ""))),
+            source="aijobs",
+            description=str(j.get("description", j.get("body", "")))[:5000],
+            posted=j.get("date", j.get("published", j.get("pubDate", ""))),
+            remote="remote" in str(j.get("location", "")).lower() or j.get("remote", False),
+            salary=salary,
+            tags=j.get("tags", []) if isinstance(j.get("tags"), list) else [],
+            scraped_at=now,
+        ))
+
+    logger.info(f"AI-Jobs.net: {len(jobs)} jobs")
+    return jobs
+
+
 # --- Source: Headless browser (Playwright) — fallback only ---
 
 def scrape_with_browser(
@@ -655,8 +707,18 @@ def scrape_all_sources(
 
     _random_delay()
 
-    # 6. We Work Remotely + GermanTechJobs (RSS feeds)
-    logger.info("=== Source 6/7: RSS Feeds (WWR + GermanTechJobs) ===")
+    # 6. AI-Jobs.net (free JSON API, AI/ML-specific — unique listings)
+    logger.info("=== Source 6/8: AI-Jobs.net ===")
+    try:
+        aijobs_results = scrape_aijobs(limit=100)
+        all_jobs.extend(aijobs_results)
+    except Exception as e:
+        logger.error(f"AI-Jobs.net failed: {e}")
+
+    _random_delay()
+
+    # 7. We Work Remotely + GermanTechJobs (RSS feeds)
+    logger.info("=== Source 7/8: RSS Feeds (WWR + GermanTechJobs) ===")
     try:
         wwr_results = scrape_weworkremotely(limit=50)
         all_jobs.extend(wwr_results)
@@ -671,9 +733,9 @@ def scrape_all_sources(
     except Exception as e:
         logger.error(f"GermanTechJobs failed: {e}")
 
-    # 7. Browser scraping (only in api-plus or all mode)
+    # 8. Browser scraping (only in api-plus or all mode)
     if mode in ("api-plus", "all") and browser_urls:
-        logger.info("=== Source 7/7: Browser (career pages) ===")
+        logger.info("=== Source 8/8: Browser (career pages) ===")
         _random_delay()
         raw = scrape_with_browser(browser_urls)
         for item in raw:
