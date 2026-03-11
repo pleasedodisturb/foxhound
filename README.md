@@ -6,7 +6,9 @@ A job search operating system for people who'd rather build a process than refre
 
 Not a job board. Not a SaaS. A system you own and run.
 
-> *No relation to Kojima, Konami, or Metal Gear Solid. But if you know, you know — and it forever lives in our hearts.*
+> *If you don't have a dog but always wanted one, and your parents said ABSOLUTELY NOT — this might be the first foxhound you get. It finds you a job, you move out, you get a real one. (No, dad, it's MY dog. Stop loving it so much.)*
+
+> *Also no relation to Kojima, Konami, or Metal Gear Solid. But if you know, you know — and it forever lives in our hearts.*
 
 ---
 
