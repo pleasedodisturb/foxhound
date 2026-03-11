@@ -1,0 +1,96 @@
+name: Daily Job Scan
+
+on:
+  schedule:
+    # Run daily at 07:00 UTC (adjust to your timezone)
+    # Mon-Fri only — weekend jobs are caught on Monday
+    - cron: '0 7 * * 1-5'
+
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Scraping mode'
+        required: false
+        default: 'api-only'
+        type: choice
+        options:
+          - api-only
+          - api-plus
+          - all
+      min_score:
+        description: 'Minimum fit score (1-10)'
+        required: false
+        default: '5'
+      hours_old:
+        description: 'Max posting age in hours'
+        required: false
+        default: '24'
+      dry_run:
+        description: 'Dry run (no CSV writes)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  daily-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Run daily pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PIPELINE_MODE: ${{ inputs.mode || 'api-only' }}
+          PIPELINE_MIN_SCORE: ${{ inputs.min_score || '5' }}
+          PIPELINE_HOURS_OLD: ${{ inputs.hours_old || '24' }}
+          PIPELINE_LOCATION: ${{ vars.PIPELINE_LOCATION || 'Berlin' }}
+          PIPELINE_DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+        run: |
+          .venv/bin/python tools/daily_pipeline.py
+
+      - name: Upload digest as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-scan-${{ github.run_number }}
+          path: |
+            tracking/daily-scan-*.md
+            tracking/scraped_scored_*.json
+          retention-days: 30
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
+
+      - name: Commit digest to repo
+        if: success() && inputs.dry_run != true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(date +%Y-%m-%d)
+          git add tracking/daily-scan-${DATE}.md tracking/scraped_scored_${DATE}.json
+          git diff --cached --quiet || git commit -m "chore: daily scan digest ${DATE}"
+          git push

@@ -71,6 +71,10 @@ Use built-in `WebSearch` for web searches.
 | `tools/germany_jobs.py` | Regional job board search (adapt to your market) |
 | `tools/scraper.py` | Multi-board scrape |
 | `tools/job_scorer.py` | AI-based fit scoring |
+| `tools/daily_pipeline.py` | Automated daily pipeline orchestrator |
+| `tools/scrape_resilient.py` | Resilient multi-source scraper with anti-detection |
+| `automation/` | Scheduling configs (cron, launchd, n8n) |
+| `.github/workflows/daily-scan.yml` | GitHub Actions daily schedule |
 
 ## Scoring Quick Reference
 

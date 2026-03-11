@@ -217,10 +217,54 @@ When the user provides a job URL and wants a **tailored application**:
 
 ---
 
+## Automated Daily Pipeline
+
+The daily pipeline (`tools/daily_pipeline.py`) automates the full periodic workflow:
+
+**Scrape → Score → Dedup → Filter → Digest**
+
+### Running manually
+```bash
+OPENAI_API_KEY=your_key .venv/bin/python tools/daily_pipeline.py
+```
+
+### Scheduling options
+1. **GitHub Actions** (recommended): `.github/workflows/daily-scan.yml` — runs Mon-Fri 07:00 UTC
+2. **cron**: `automation/cron_runner.sh` — any Linux/macOS scheduler
+3. **launchd**: `automation/com.jobsearchhq.daily-scan.plist` — macOS native
+4. **n8n**: `automation/n8n_workflow.json` — import into n8n, add notifications
+
+### Key files
+| File | Purpose |
+|------|---------|
+| `tools/daily_pipeline.py` | Main orchestrator — chains all steps |
+| `tools/scrape_resilient.py` | Multi-source scraper with retries, rate limiting, anti-detection |
+| `.github/workflows/daily-scan.yml` | GitHub Actions daily schedule |
+| `automation/` | cron, launchd, n8n configs |
+
+### Configuration (env vars)
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `OPENAI_API_KEY` | (required) | For AI scoring |
+| `PIPELINE_MODE` | `api-only` | `api-only` / `api-plus` / `all` |
+| `PIPELINE_MIN_SCORE` | `5` | Min score for digest |
+| `PIPELINE_HOURS_OLD` | `24` | Max posting age |
+| `PIPELINE_LOCATION` | `Berlin` | Search location |
+
+### Output
+- `tracking/daily-scan-YYYY-MM-DD.md` — human-readable ranked digest
+- `tracking/scraped_scored_YYYY-MM-DD.json` — scored data for programmatic use
+- Digest does NOT auto-add to CSV — it's for human review via `/job-intake`
+
+See `automation/README.md` for full setup guide.
+
+---
+
 ## Project Context
 
 - **Profile**: `profile/target-roles.md`, `profile/README.md`
 - **Tracking**: `tracking/applications.csv`, `tracking/action-log.md`
+- **Automation**: `automation/README.md` — daily pipeline setup
 - **Docs**: `docs/PROJECT_STATE.md` — full project state for persistence
 
 ---
