@@ -30,6 +30,10 @@ from pathlib import Path
 # Add project root to path so we can import sibling modules
 sys.path.insert(0, str(Path(__file__).parent))
 
+import xml.etree.ElementTree as ET
+
+import httpx
+
 import germany_jobs
 from scraper import scrape_all as jobspy_scrape
 
@@ -211,6 +215,261 @@ def scrape_jobspy(
     return jobs
 
 
+# --- Source: Remotive (free API, remote-focused) ---
+
+REMOTIVE_API = "https://remotive.com/api/remote-jobs"
+
+def scrape_remotive(
+    search: str = "",
+    category: str = "",
+    limit: int = 50,
+) -> list[ScrapedJob]:
+    """
+    Scrape Remotive's free public API.
+    Rate limit: max 4 requests/day. Jobs delayed 24h.
+    https://github.com/remotive-com/remote-jobs-api
+    """
+    jobs: list[ScrapedJob] = []
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    params: dict[str, str | int] = {"limit": limit}
+    if search:
+        params["search"] = search
+    if category:
+        params["category"] = category
+
+    def _fetch():
+        with httpx.Client(timeout=30, headers={"User-Agent": _get_user_agent()}) as client:
+            r = client.get(REMOTIVE_API, params=params)
+            r.raise_for_status()
+            return r.json()
+
+    data = _retry_with_backoff(_fetch)
+    if not data:
+        return jobs
+
+    for j in data.get("jobs", []):
+        jobs.append(ScrapedJob(
+            title=j.get("title", ""),
+            company=j.get("company_name", ""),
+            location=j.get("candidate_required_location", ""),
+            url=j.get("url", ""),
+            source="remotive",
+            description=j.get("description", "")[:5000],
+            posted=j.get("publication_date", ""),
+            remote=True,
+            salary=j.get("salary", ""),
+            tags=j.get("tags", []),
+            scraped_at=now,
+        ))
+
+    logger.info(f"Remotive: {len(jobs)} jobs")
+    return jobs
+
+
+# --- Source: RemoteOK (free API, largest remote board) ---
+
+REMOTEOK_API = "https://remoteok.com/api"
+
+def scrape_remoteok(limit: int = 50) -> list[ScrapedJob]:
+    """
+    Scrape RemoteOK's free JSON API. No auth required.
+    Returns all current listings. Must attribute and link back.
+    """
+    jobs: list[ScrapedJob] = []
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    def _fetch():
+        with httpx.Client(timeout=30, headers={"User-Agent": _get_user_agent()}) as client:
+            r = client.get(REMOTEOK_API)
+            r.raise_for_status()
+            return r.json()
+
+    data = _retry_with_backoff(_fetch)
+    if not data:
+        return jobs
+
+    # First element is a legal notice, skip it
+    listings = [item for item in data if isinstance(item, dict) and item.get("id")]
+
+    for j in listings[:limit]:
+        tags = j.get("tags", [])
+        if isinstance(tags, str):
+            tags = [tags]
+        jobs.append(ScrapedJob(
+            title=j.get("position", ""),
+            company=j.get("company", ""),
+            location=j.get("location", "Worldwide"),
+            url=j.get("url", j.get("apply_url", "")),
+            source="remoteok",
+            description=j.get("description", "")[:5000],
+            posted=j.get("date", ""),
+            remote=True,
+            salary=j.get("salary_min", ""),
+            tags=tags,
+            scraped_at=now,
+        ))
+
+    logger.info(f"RemoteOK: {len(jobs)} jobs")
+    return jobs
+
+
+# --- Source: Jobicy (free API, remote with geo filter) ---
+
+JOBICY_API = "https://jobicy.com/api/v2/remote-jobs"
+
+def scrape_jobicy(
+    count: int = 50,
+    geo: str = "europe",
+    tag: str = "",
+) -> list[ScrapedJob]:
+    """
+    Scrape Jobicy's free public API. No auth required.
+    Supports geo filtering (usa, europe, uk, etc.) and industry/tag filters.
+    https://github.com/Jobicy/remote-jobs-api
+    """
+    jobs: list[ScrapedJob] = []
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    params: dict[str, str | int] = {"count": count, "geo": geo}
+    if tag:
+        params["tag"] = tag
+
+    def _fetch():
+        with httpx.Client(timeout=30, headers={"User-Agent": _get_user_agent()}) as client:
+            r = client.get(JOBICY_API, params=params)
+            r.raise_for_status()
+            return r.json()
+
+    data = _retry_with_backoff(_fetch)
+    if not data:
+        return jobs
+
+    for j in data.get("jobs", []):
+        jobs.append(ScrapedJob(
+            title=j.get("jobTitle", ""),
+            company=j.get("companyName", ""),
+            location=j.get("jobGeo", ""),
+            url=j.get("url", ""),
+            source="jobicy",
+            description=j.get("jobDescription", "")[:5000],
+            posted=j.get("pubDate", ""),
+            remote=True,
+            salary=j.get("annualSalaryMin", ""),
+            tags=j.get("jobIndustry", []) if isinstance(j.get("jobIndustry"), list) else [],
+            scraped_at=now,
+        ))
+
+    logger.info(f"Jobicy: {len(jobs)} jobs")
+    return jobs
+
+
+# --- Source: We Work Remotely (RSS feed, curated quality) ---
+
+WWR_RSS = "https://weworkremotely.com/remote-jobs.rss"
+
+def scrape_weworkremotely(limit: int = 50) -> list[ScrapedJob]:
+    """
+    Parse We Work Remotely's public RSS feed.
+    High-quality curated remote listings. No auth needed.
+    """
+    jobs: list[ScrapedJob] = []
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    def _fetch():
+        with httpx.Client(timeout=30, headers={"User-Agent": _get_user_agent()}) as client:
+            r = client.get(WWR_RSS)
+            r.raise_for_status()
+            return r.text
+
+    xml_text = _retry_with_backoff(_fetch)
+    if not xml_text:
+        return jobs
+
+    try:
+        root = ET.fromstring(xml_text)
+        items = root.findall(".//item")
+
+        for item in items[:limit]:
+            title_el = item.find("title")
+            link_el = item.find("link")
+            desc_el = item.find("description")
+            pubdate_el = item.find("pubDate")
+
+            title_text = title_el.text if title_el is not None else ""
+            # WWR titles are often "Company: Role Title"
+            company = ""
+            role = title_text
+            if ": " in title_text:
+                company, role = title_text.split(": ", 1)
+
+            jobs.append(ScrapedJob(
+                title=role,
+                company=company,
+                location="Remote",
+                url=link_el.text if link_el is not None else "",
+                source="weworkremotely",
+                description=(desc_el.text or "")[:5000] if desc_el is not None else "",
+                posted=pubdate_el.text if pubdate_el is not None else "",
+                remote=True,
+                scraped_at=now,
+            ))
+    except ET.ParseError as e:
+        logger.error(f"WWR RSS parse error: {e}")
+
+    logger.info(f"We Work Remotely: {len(jobs)} jobs")
+    return jobs
+
+
+# --- Source: GermanTechJobs (RSS feed, Germany-specific) ---
+
+GERMANTECHJOBS_RSS = "https://germantechjobs.de/job_feed.xml"
+
+def scrape_germantechjobs(limit: int = 50) -> list[ScrapedJob]:
+    """
+    Parse GermanTechJobs RSS/XML feed.
+    Germany-specific tech jobs. Free, no auth.
+    """
+    jobs: list[ScrapedJob] = []
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    def _fetch():
+        with httpx.Client(timeout=30, headers={"User-Agent": _get_user_agent()}) as client:
+            r = client.get(GERMANTECHJOBS_RSS)
+            r.raise_for_status()
+            return r.text
+
+    xml_text = _retry_with_backoff(_fetch)
+    if not xml_text:
+        return jobs
+
+    try:
+        root = ET.fromstring(xml_text)
+        items = root.findall(".//item")
+
+        for item in items[:limit]:
+            title_el = item.find("title")
+            link_el = item.find("link")
+            desc_el = item.find("description")
+            pubdate_el = item.find("pubDate")
+
+            jobs.append(ScrapedJob(
+                title=title_el.text if title_el is not None else "",
+                company="",  # Not always in the feed title
+                location="Germany",
+                url=link_el.text if link_el is not None else "",
+                source="germantechjobs",
+                description=(desc_el.text or "")[:5000] if desc_el is not None else "",
+                posted=pubdate_el.text if pubdate_el is not None else "",
+                scraped_at=now,
+            ))
+    except ET.ParseError as e:
+        logger.error(f"GermanTechJobs RSS parse error: {e}")
+
+    logger.info(f"GermanTechJobs: {len(jobs)} jobs")
+    return jobs
+
+
 # --- Source: Headless browser (Playwright) — fallback only ---
 
 def scrape_with_browser(
@@ -335,7 +594,7 @@ def scrape_all_sources(
     all_jobs: list[ScrapedJob] = []
 
     # 1. Germany APIs (always — pure API, zero risk)
-    logger.info("=== Source: Germany APIs ===")
+    logger.info("=== Source 1/7: Germany APIs ===")
     try:
         germany_results = scrape_germany_apis(
             presets=germany_presets or ["all"],
@@ -349,7 +608,7 @@ def scrape_all_sources(
     _random_delay()
 
     # 2. JobSpy HTTP scraper (LinkedIn, Indeed, Glassdoor, Google)
-    logger.info("=== Source: JobSpy ===")
+    logger.info("=== Source 2/7: JobSpy ===")
     try:
         jobspy_results = scrape_jobspy(
             keywords=keywords,
@@ -361,9 +620,60 @@ def scrape_all_sources(
     except Exception as e:
         logger.error(f"JobSpy failed: {e}")
 
-    # 3. Browser scraping (only in api-plus or all mode)
+    _random_delay()
+
+    # 3. Remotive (free API, remote-focused, unique listings)
+    logger.info("=== Source 3/7: Remotive ===")
+    try:
+        # Search for relevant categories
+        for search_term in (keywords or ["product manager", "program manager", "AI"]):
+            remotive_results = scrape_remotive(search=search_term, limit=30)
+            all_jobs.extend(remotive_results)
+            _random_delay()
+    except Exception as e:
+        logger.error(f"Remotive failed: {e}")
+
+    _random_delay()
+
+    # 4. RemoteOK (free API, largest remote board)
+    logger.info("=== Source 4/7: RemoteOK ===")
+    try:
+        remoteok_results = scrape_remoteok(limit=50)
+        all_jobs.extend(remoteok_results)
+    except Exception as e:
+        logger.error(f"RemoteOK failed: {e}")
+
+    _random_delay()
+
+    # 5. Jobicy (free API, remote with European geo filter)
+    logger.info("=== Source 5/7: Jobicy ===")
+    try:
+        jobicy_results = scrape_jobicy(count=50, geo="europe")
+        all_jobs.extend(jobicy_results)
+    except Exception as e:
+        logger.error(f"Jobicy failed: {e}")
+
+    _random_delay()
+
+    # 6. We Work Remotely + GermanTechJobs (RSS feeds)
+    logger.info("=== Source 6/7: RSS Feeds (WWR + GermanTechJobs) ===")
+    try:
+        wwr_results = scrape_weworkremotely(limit=50)
+        all_jobs.extend(wwr_results)
+    except Exception as e:
+        logger.error(f"We Work Remotely failed: {e}")
+
+    _random_delay()
+
+    try:
+        gtj_results = scrape_germantechjobs(limit=50)
+        all_jobs.extend(gtj_results)
+    except Exception as e:
+        logger.error(f"GermanTechJobs failed: {e}")
+
+    # 7. Browser scraping (only in api-plus or all mode)
     if mode in ("api-plus", "all") and browser_urls:
-        logger.info("=== Source: Browser (career pages) ===")
+        logger.info("=== Source 7/7: Browser (career pages) ===")
         _random_delay()
         raw = scrape_with_browser(browser_urls)
         for item in raw:
