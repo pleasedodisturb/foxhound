@@ -1,5 +1,13 @@
 # foxhound
 
+> **⚠️ Archived (2026-05-22) — superseded by [kestrel](https://github.com/pleasedodisturb/kestrel).**
+>
+> Foxhound was the proof-of-concept template for the "job search OS" pattern. The productized version — with a real FastAPI backend, React 19 frontend, and ongoing maintenance — is **[kestrel](https://github.com/pleasedodisturb/kestrel)**.
+>
+> If you were going to fork foxhound, fork kestrel instead. This repo remains for historical reference (the original 1-page system sketch + design rationale below).
+
+---
+
 **Track by scent, not by scroll.**
 
 A job search operating system for people who'd rather build a process than refresh LinkedIn hoping something shows up. Local-first, AI-native, agent-agnostic. You define what you want once — foxhound does the filtering, scoring, and busywork.
